@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<History>
+	<NurseCall Ward="001" Node="003" Source="DR" Type="NOR" 
+			   ActiveTime="00:25:53" PresenceTime="00:25:55" CancelTime="00:35:59">
+		<Patient ID="000558" Surname="James" Name="LeBron" Gender="Male"/>
+		<Nurse ID="000573" Surname="Swift" Name="Taylor" Gender="Female"/>
+	</NurseCall>
+		<NurseCall Ward="001" Node="004" Source="U4" Type="MED" 
+			   ActiveTime="00:25:53" PresenceTime="00:25:55" CancelTime="00:35:59">
+		<Patient ID="000559" Surname="Potter" Name="Harry" Gender="Male"/>
+		<Nurse ID="000573" Surname="Swift" Name="Taylor" Gender="Female"/>
+	</NurseCall>
+</History>

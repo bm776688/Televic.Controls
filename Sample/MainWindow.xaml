@@ -1,0 +1,149 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:control="clr-namespace:Televic.Controls;assembly=Televic.Controls"
+        xmlns:Televic_Controls_Converter="clr-namespace:Televic.Controls.Converter;assembly=Televic.Controls" 
+	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Sample.MainWindow"
+        Title="MainWindow" Height="502" Width="1237">
+	<Window.Resources>
+		<ResourceDictionary Source="pack://application:,,,/Televic.Controls;component/Themes/TelevicControlStyles.xaml"/>
+	</Window.Resources>
+	<DockPanel>
+		<DockPanel.Resources>
+			<BitmapImage UriSource="/Sample;component/image/green.png" x:Key="imgGreen"/>
+			<BitmapImage UriSource="/Sample;component/image/red.png" x:Key="imgRed" />
+			<BitmapImage UriSource="/Sample;component/image/photo.png" x:Key="imgPhoto" />
+			<XmlDataProvider x:Key="xml" Source="/Sample;component/2013-03-16.xml" />
+		</DockPanel.Resources>
+		<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+			<TextBlock Width="150" Height="28" Text="{Binding ElementName=searchTabControl, Path=SearchBarText}"/>
+			<Button Width="100" Height="28" Content="Test Search" Click="search_Click"/>
+			<TextBlock Width="150" x:Name="state"/>
+		</StackPanel>
+		<control:SearchTabControl SearchBarVisibility="Visible" x:Name="searchTabControl" SearchBarWidth="150" SearchBarContentChanged="searchTabControl_SearchBarContentChanged">
+			<TabItem Header="首页">
+				adrenocoticosteroid
+			</TabItem>
+			
+			<TabItem Header="Control Panel">
+			</TabItem>
+			
+			<TabItem Header="History">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" MinWidth="300"/>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+					<StackPanel HorizontalAlignment="Center">
+						<TextBlock Text="历史记录导航" Foreground="Black" FontWeight="Bold" FontSize="18" />
+						<control:GridCalendar x:Name="calendar" Margin="15, 10,0,0" VerticalAlignment="Top" Width="300" Height="200" HorizontalAlignment="Left" SelectedDatesChanged="GridCalendar_SelectedDatesChanged" />
+					</StackPanel>
+					<DataGrid x:Name="dataGridCallRecords" ItemsSource="{Binding XPath=History/NurseCall}" Margin="10" DataContext="{Binding CallRecordData}" IsSynchronizedWithCurrentItem="True"
+							Background="{x:Null}" Grid.Column="1" SelectionUnit="FullRow" SelectionChanged="dataGridCallRecords_SelectionChanged" 
+							SelectionMode="Single"
+							HorizontalGridLinesBrush="Transparent" VerticalGridLinesBrush="Transparent"
+							AutoGenerateColumns="False" IsReadOnly="True"
+							ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}" 
+							RowHeaderStyle="{DynamicResource DataGridRowHeaderStyle}" 
+							Style="{DynamicResource DataGridStyle}" 
+							RowStyle="{DynamicResource DataGridRowStyle}"
+							CellStyle="{DynamicResource DataGridCellStyle}"
+							>
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="日期" Width="*" Binding="{Binding XPath=@Ward}"/>
+							<DataGridTextColumn Header="病区名" Width="*" Binding="{Binding XPath=@Ward}"/>
+							<DataGridTextColumn Header="病房号" Width="*" Binding="{Binding XPath=@Node}"/>
+							<DataGridTextColumn Header="呼叫源" Width="*" Binding="{Binding XPath=@Source}"/>
+							<DataGridTextColumn Header="呼叫类型" Width="*" Binding="{Binding XPath=@Type}"/>
+							<DataGridTextColumn Header="呼叫时间" Width="*" Binding="{Binding XPath=@ActiveTime}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+					<StackPanel Grid.Column="2" HorizontalAlignment="Center">
+						<TextBlock Text="详细信息" Foreground="Black" FontWeight="Bold" FontSize="18" />
+						<StackPanel x:Name="stackPatient" Orientation="Horizontal" Margin="0, 10">
+							<StackPanel Orientation="Horizontal" Margin="10,0,10,5">
+								<Image Source="{StaticResource imgPhoto}" Margin="0,0,10,0" VerticalAlignment="Top"/>
+								<StackPanel Margin="10, 0">
+									<TextBlock Text="病人姓名：詹姆斯" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="{Binding ElementName=dataGridCallRecords, Path=SelectedItem}" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="呼叫时间：00:25:33" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="备注：青霉素过敏" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+						<StackPanel x:Name="stackNurse" Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal" Margin="10,0,10,5">
+								<Image Source="{StaticResource imgPhoto}" Margin="0,0,10,0" VerticalAlignment="Top"/>
+								<StackPanel Margin="10, 0">
+									<TextBlock Text="护士姓名：凯瑟琳" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="护士编号：000753" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="响应时间：00:25:55" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="结束时间：00:25:59" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+									<TextBlock Text="护理内容：换药……" Foreground="Black" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" Margin="0,5"/>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			
+			<TabItem Header="Maintain">
+				<Grid>
+					<control:MapControl x:Name="map" Background="Transparent" MapImage="/Sample;component/image/map2.png" ItemsSource="{Binding Locations}">
+						<control:MapControl.ItemTemplate>
+							<DataTemplate>
+								<control:MapItem X="{Binding X}" Y="{Binding Y}" Image="{StaticResource imgRed}" PopPanelOffset="-13,10">
+									<control:MapItem.PopPanelTemplate>
+										<ControlTemplate>
+											<Grid Width="154" Height="191">
+												<ed:Callout AnchorPoint="0.15,1.098" CalloutStyle="Rectangle" Stroke="#FF787676" Fill="#FFF4F4F5" Opacity="0.835" Margin="0,0,0,20">
+													<StackPanel Margin="0" Height="138.5" Width="151.5">
+														<StackPanel Orientation="Horizontal" Margin="10,0,10,5">
+															<Image Source="{Binding PersonInfo.Image}" Margin="0,0,10,0" />
+															<TextBlock Text="{Binding PersonInfo.Name}" Foreground="#FFB4AAAA" FontFamily="Segoe WP" TextWrapping="Wrap" TextTrimming="WordEllipsis" Width="50.817" LineHeight="8" VerticalAlignment="Center" FontSize="10.667" />
+														</StackPanel>
+														<Grid>
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition Width="0.424*"/>
+																<ColumnDefinition Width="0.576*"/>
+															</Grid.ColumnDefinitions>
+															<Grid.RowDefinitions>
+																<RowDefinition />
+																<RowDefinition />
+																<RowDefinition />
+																<RowDefinition />
+															</Grid.RowDefinitions>
+															<TextBlock Grid.Row="0" Grid.Column="0" Text="区域一：" Background="#FFA3B2B7" Foreground="White" FontSize="10.667" TextAlignment="Center" FontFamily="Microsoft YaHei" Padding="0,1,0,0" Margin="0,0,0,1" />
+															<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Field1}" Background="#FFCEDBE1" Foreground="#FF818D8F" Padding="10,2,0,0" Margin="0,0,0,1" FontFamily="Kootenay" FontSize="10.667"/>
+															<TextBlock Grid.Row="1" Grid.Column="0" Text="区域二：" Background="#FFA3B2B7" Foreground="White" FontSize="10.667" TextAlignment="Center" FontFamily="Microsoft YaHei" Padding="0,1,0,0" Margin="0,0,0,1" />
+															<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Field2}" Background="#FFCEDBE1" Foreground="#FF818D8F" Padding="10,2,0,0" Margin="0,0,0,1" FontFamily="Kootenay" FontSize="10.667"/>
+															<TextBlock Grid.Row="2" Grid.Column="0" Text="区域三：" Background="#FFA3B2B7" Foreground="White" FontSize="10.667" TextAlignment="Center" FontFamily="Microsoft YaHei" Padding="0,1,0,0" Margin="0,0,0,1" />
+															<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Field3}" Background="#FFCEDBE1" Foreground="#FF818D8F" Padding="10,2,0,0" Margin="0,0,0,1" FontFamily="Kootenay" FontSize="10.667"/>
+															<TextBlock Grid.Row="3" Grid.Column="0" Text="区域四：" Background="#FFA3B2B7" Foreground="White" FontSize="10.667" TextAlignment="Center" FontFamily="Microsoft YaHei" Padding="0,1,0,0" Margin="0,0,0,1" />
+															<TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Field4}" Background="#FFCEDBE1" Foreground="#FF818D8F" Padding="10,2,0,0" Margin="0,0,0,1" FontFamily="Kootenay" FontSize="10.667"/>
+														</Grid>
+														<Image HorizontalAlignment="Right" Source="image/tele.png" Stretch="Fill" VerticalAlignment="Top" Height="30" Width="30" d:LayoutOverrides="HorizontalAlignment" Margin="0,3,3,0"/>
+													</StackPanel>
+												</ed:Callout>
+											</Grid>
+										</ControlTemplate>
+									</control:MapItem.PopPanelTemplate>
+								</control:MapItem>
+							</DataTemplate>
+						</control:MapControl.ItemTemplate>
+					</control:MapControl>
+
+					<!-- Test Binding operations -->
+					<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="10">
+						<Button Content="Add" Height="23" x:Name="button1" Width="75" Click="buttonAdd_Click" />
+						<Button Content="Remove" Height="23" x:Name="button2" Width="75" Click="buttonRemove_Click" />
+						<Button Content="Modify" Height="23" x:Name="button3" Width="75" Click="buttonModify_Click" />
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Contact us"/>
+		</control:SearchTabControl>
+	</DockPanel>
+</Window>
